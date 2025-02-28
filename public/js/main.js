@@ -22,8 +22,7 @@ async function extractVideo() {
 
     try {
         // Get the current origin (domain)
-        const baseUrl = window.location.origin;
-        console.log(baseUrl);
+        const baseUrl = "https://video-url-extractor-ruddy.vercel.app/";
         
         // Use the full URL for the API request
         const response = await fetch(`${baseUrl}/api/extract-video?url=${encodeURIComponent(urlInput.value)}`);

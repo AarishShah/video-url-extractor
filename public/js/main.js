@@ -25,7 +25,7 @@ async function extractVideo() {
         const baseUrl = "https://video-url-extractor-ruddy.vercel.app/";
         
         // Use the full URL for the API request
-        const response = await fetch(`${baseUrl}/api/extract-video?url=${encodeURIComponent(urlInput.value)}`);
+        const response = await fetch(`${baseUrl}/extract-video?url=${encodeURIComponent(urlInput.value)}`);
         const data = await response.json();
 
         if (data.error) {

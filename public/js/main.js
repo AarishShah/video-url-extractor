@@ -21,7 +21,7 @@ async function extractVideo() {
     extractBtn.disabled = true;
 
     try {
-        const response = await fetch(`/api/extract-video?url=${encodeURIComponent(urlInput.value)}`);
+        const response = await fetch(`https://video-url-extractor-ruddy.vercel.app/api/extract-video?url=${encodeURIComponent(urlInput.value)}`);
         const data = await response.json();
 
         if (data.error) {

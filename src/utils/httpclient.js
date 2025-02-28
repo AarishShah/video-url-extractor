@@ -5,32 +5,35 @@ class httpClient {
     try {
       const response = await axios.get(url, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-          'Accept-Language': 'en-US,en;q=0.9',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
           'Accept-Encoding': 'gzip, deflate, br',
-          'Referer': 'https://web.magmail.eu.org/',
-          'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"Windows"',
-          'sec-fetch-dest': 'document',
-          'sec-fetch-mode': 'navigate',
-          'sec-fetch-site': 'same-origin',
-          'sec-fetch-user': '?1',
-          'Origin': 'https://web.magmail.eu.org',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Cache-Control': 'max-age=0'
         },
-        withCredentials: true,
-        maxRedirects: 5,
-        timeout: 5000
+        timeout: 5000,
+        validateStatus: function (status) {
+          return status >= 200 && status < 500; // Accept status codes between 200 and 499
+        }
       });
+
+      if (response.status === 403) {
+        throw new Error('Access forbidden. The website might be blocking our requests.');
+      }
 
       return response.data;
     } catch (error) {
       if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
         throw new Error(`Request failed with status code ${error.response.status}`);
       } else if (error.request) {
+        // The request was made but no response was received
         throw new Error('No response received from the server');
       } else {
+        // Something happened in setting up the request that triggered an Error
         throw new Error(`HTTP request failed: ${error.message}`);
       }
     }

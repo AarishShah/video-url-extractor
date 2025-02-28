@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-class HttpClient {
+class httpClient {
   async get(url) {
     try {
       const response = await axios.get(url);
@@ -11,4 +11,4 @@ class HttpClient {
   }
 }
 
-module.exports = HttpClient;
+module.exports = httpClient;

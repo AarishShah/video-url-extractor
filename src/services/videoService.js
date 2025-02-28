@@ -1,5 +1,5 @@
 const VideoModel = require('../models/videoModel');
-const HttpClient = require('../utils/HttpClient');
+const HttpClient = require('../utils/httpclient');
 const cheerio = require('cheerio');
 
 class VideoService {

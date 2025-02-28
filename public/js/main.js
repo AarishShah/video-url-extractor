@@ -21,11 +21,7 @@ async function extractVideo() {
     extractBtn.disabled = true;
 
     try {
-        // Get the current origin (domain)
-        const baseUrl = "https://video-url-extractor-ruddy.vercel.app/";
-        
-        // Use the full URL for the API request
-        const response = await fetch(`${baseUrl}/extract-video?url=${encodeURIComponent(urlInput.value)}`);
+        const response = await fetch(`/api/extract-video?url=${encodeURIComponent(urlInput.value)}`);
         const data = await response.json();
 
         if (data.error) {
@@ -42,3 +38,39 @@ async function extractVideo() {
         extractBtn.disabled = false;
     }
 }
+
+function showError(message) {
+    const error = document.getElementById('error');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    error.classList.remove('hidden');
+}
+
+function copyToClipboard() {
+    const sourceUrl = document.getElementById('sourceUrl');
+    sourceUrl.select();
+    document.execCommand('copy');
+    
+    // Show temporary success message
+    const copyBtn = document.querySelector('.copy-btn');
+    const originalHTML = copyBtn.innerHTML;
+    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+    copyBtn.style.backgroundColor = 'var(--success-color)';
+    
+    setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+        copyBtn.style.backgroundColor = '';
+    }, 2000);
+}
+
+function openInNewTab() {
+    const sourceUrl = document.getElementById('sourceUrl');
+    window.open(sourceUrl.value, '_blank');
+}
+
+// Add enter key support
+document.getElementById('urlInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        extractVideo();
+    }
+});
